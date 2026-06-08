@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catchly · Die ersten 30 Minuten entscheiden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Modak&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --indigo:#541388;
+    --indigo-deep:#3a0d63;
+    --gold:#FFD400;
+    --pink:#FE0B7D;
+    --white:#FFFFFF;
+    --black:#000000;
+    --cream:#FFFBEF;
+    --ink:#15101c;
+    --muted:#5f5a66;
+    --line:#ece7dc;
+    --font:"Nunito","Segoe UI",system-ui,-apple-system,sans-serif;
+    --logo:"Modak","Nunito",system-ui,sans-serif;
+    --shadow:0 22px 50px rgba(33,12,60,.12);
+    --shadow-sm:0 8px 24px rgba(33,12,60,.10);
+    --radius:24px;
+    --radius-sm:16px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--font);
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  section{position:relative}
+
+  h1,h2,h3{line-height:1.08;letter-spacing:-.02em;font-weight:900}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-weight:900;text-transform:uppercase;letter-spacing:.14em;
+    font-size:.72rem;color:var(--pink);
+    background:#fff;border:2px solid var(--line);
+    padding:7px 14px;border-radius:999px;box-shadow:var(--shadow-sm);
+  }
+  .eyebrow .dot{width:9px;height:9px;border-radius:50%;background:var(--pink)}
+
+  /* confetti */
+  .confetti{position:absolute;pointer-events:none;z-index:0;opacity:.9}
+  .sq{border-radius:6px}
+  .tri{width:0;height:0;border-style:solid}
+  .circle{border-radius:50%}
+  .ell{border-radius:50%}
+
+  /* logo + nav */
+  .mark{display:inline-block;flex:0 0 auto}
+  .brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+  .brand .name{font-family:var(--logo);font-size:1.9rem;color:var(--ink);line-height:1}
+  .nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(180%) blur(10px);background:rgba(255,251,239,.82);border-bottom:1px solid var(--line)}
+  .nav .row{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+  .nav .name{font-size:1.5rem}
+
+  /* buttons */
+  .btn{display:inline-flex;align-items:center;gap:10px;font-weight:900;font-size:1rem;text-decoration:none;cursor:pointer;padding:15px 26px;border-radius:999px;border:none;transition:transform .15s ease,box-shadow .15s ease;white-space:nowrap}
+  .btn-pink{background:var(--pink);color:#fff;box-shadow:0 12px 26px rgba(254,11,125,.34)}
+  .btn-pink:hover{transform:translateY(-2px);box-shadow:0 18px 34px rgba(254,11,125,.44)}
+  .btn-ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+  .btn-ghost:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
+  .btn .arr{transition:transform .15s ease}
+  .btn:hover .arr{transform:translateX(4px)}
+
+  /* hero */
+  .hero{padding:72px 0 90px;overflow:hidden}
+  .hero .grid{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;position:relative;z-index:2}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);color:var(--ink)}
+  .hero h1 .hl{position:relative;white-space:nowrap}
+  .hero h1 .hl::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.06em;height:.34em;background:var(--gold);z-index:-1;border-radius:4px;transform:rotate(-1.2deg)}
+  .hero .sub{font-size:clamp(1.05rem,1.6vw,1.28rem);color:var(--muted);margin:24px 0 32px;max-width:40ch;font-weight:600}
+  .hero .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .hero .trust{margin-top:22px;font-size:.95rem;color:#3a3340;font-weight:700;display:flex;align-items:flex-start;gap:10px;max-width:46ch}
+  .hero .trust .clk{color:var(--indigo);margin-top:3px}
+
+  .hero-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:26px;z-index:2}
+  .clock-wrap{display:flex;align-items:center;gap:18px;margin-bottom:20px}
+  .clock{position:relative;width:96px;height:96px;flex:0 0 auto}
+  .clock svg{display:block;transform:rotate(-90deg)}
+  .clock .lbl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:900;line-height:1}
+  .clock .lbl b{font-size:1.5rem;color:var(--indigo)}
+  .clock .lbl span{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:3px}
+  .clock-wrap .ctext b{display:block;font-size:1.05rem;font-weight:900}
+  .clock-wrap .ctext span{font-size:.9rem;color:var(--muted);font-weight:700}
+  .flow{display:flex;flex-direction:column;gap:10px}
+  .flow .step{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;background:var(--cream);border:1px solid var(--line);font-weight:800;font-size:.95rem;opacity:0;transform:translateY(8px);animation:rise .5s ease forwards}
+  .flow .step:nth-child(1){animation-delay:.15s}
+  .flow .step:nth-child(2){animation-delay:.35s}
+  .flow .step:nth-child(3){animation-delay:.55s}
+  .flow .step .ic{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;flex:0 0 auto;font-size:1rem}
+  .flow .step.ok .ic{background:#e4f4ec;color:#0e5a36}
+  .flow .step.pink .ic{background:#ffe2df;color:var(--pink)}
+  .flow .step.gold .ic{background:#fff1c2;color:#8a6b00}
+  @keyframes rise{to{opacity:1;transform:translateY(0)}}
+
+  /* numbers */
+  .numbers{background:var(--indigo);color:#fff;padding:66px 0;overflow:hidden}
+  .numbers .head{text-align:center;max-width:48ch;margin:0 auto 42px}
+  .numbers .head h2{font-size:clamp(1.5rem,3vw,2.1rem)}
+  .numbers .head .eyebrow{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:var(--gold)}
+  .numbers .head .eyebrow .dot{background:var(--gold)}
+  .ncards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;position:relative;z-index:2}
+  .ncard{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius);padding:30px 26px}
+  .ncard .big{font-family:var(--font);font-weight:900;letter-spacing:-.03em;font-size:3.5rem;line-height:1;color:var(--gold)}
+  .ncard:nth-child(2) .big{color:var(--pink)}
+  .ncard:nth-child(3) .big{color:#fff}
+  .ncard h3{font-size:1.06rem;margin:10px 0 8px;color:#fff;letter-spacing:-.01em}
+  .ncard p{font-size:.92rem;color:rgba(255,255,255,.74);font-weight:600}
+
+  /* content blocks */
+  .block{padding:64px 0}
+  .block .lead{max-width:64ch}
+  .block h2{font-size:clamp(1.7rem,3.4vw,2.5rem);color:var(--ink);margin-bottom:18px}
+  .block p{font-size:1.08rem;color:#3a3340;font-weight:600;margin-bottom:14px}
+  .block p.big{font-size:1.18rem}
+  .splitline{height:1px;background:var(--line);max-width:1120px;margin:0 auto}
+
+  /* engpass (owner) */
+  .think{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .think .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center}
+  .scene{background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:28px 30px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+  .scene .k{font-size:.76rem;text-transform:uppercase;letter-spacing:.14em;font-weight:900;color:var(--pink);margin-bottom:14px}
+  .scene .line{display:flex;gap:12px;align-items:flex-start;padding:10px 0;font-weight:700;color:#3a3340}
+  .scene .line .t{flex:0 0 auto;width:54px;font-weight:900;color:var(--indigo);font-size:.86rem;padding-top:2px}
+  .scene .out{margin-top:14px;background:var(--ink);color:#fff;border-radius:14px;padding:14px 18px;font-weight:800;font-size:.98rem}
+  .scene .out em{font-style:normal;color:var(--pink)}
+  .benefit{margin-top:20px;font-size:1.12rem;font-weight:800;color:var(--ink)}
+  .benefit em{font-style:normal;color:var(--pink)}
+
+  /* accordion case */
+  details.case{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+  details.case>summary{list-style:none;cursor:pointer;padding:20px 24px;font-weight:900;font-size:1.02rem;display:flex;align-items:center;justify-content:space-between;gap:14px;color:var(--ink)}
+  details.case>summary::-webkit-details-marker{display:none}
+  details.case>summary .plus{width:30px;height:30px;border-radius:9px;background:var(--gold);color:#000;display:grid;place-items:center;font-weight:900;flex:0 0 auto;transition:transform .2s ease;font-size:1.2rem}
+  details.case[open]>summary .plus{transform:rotate(45deg)}
+  .casebody{padding:4px 24px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .caseco{background:var(--cream);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+  .caseco .tag{display:inline-block;font-weight:900;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo);background:#f0e6fa;border-radius:999px;padding:5px 12px;margin-bottom:14px}
+  .caseco:nth-child(2) .tag{color:#8a6b00;background:#fff1c2}
+  .caseco .crow{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px dashed var(--line);font-weight:700;font-size:.92rem;color:var(--muted)}
+  .caseco .crow:last-of-type{border-bottom:none}
+  .caseco .crow b{color:var(--ink);font-weight:900;text-align:right}
+  .caseco .csum{margin-top:14px;font-family:var(--font);font-weight:900;font-size:1.45rem;color:var(--pink);letter-spacing:-.02em;line-height:1.15}
+  .caseco:nth-child(2) .csum{color:var(--indigo)}
+  .caseco .csum small{display:block;font-weight:700;font-size:.82rem;color:var(--muted);margin-top:4px}
+  .casenote{grid-column:1/-1;font-weight:700;font-size:.84rem;color:var(--muted);margin-top:2px}
+
+  /* founder */
+  .founder{background:var(--ink);color:#fff;overflow:hidden}
+  .founder .grid{display:grid;grid-template-columns:.82fr 1.18fr;gap:42px;align-items:center;position:relative;z-index:2}
+  .founder .eyebrow{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:var(--gold)}
+  .founder .eyebrow .dot{background:var(--gold)}
+  .founder h2{color:#fff;font-size:clamp(1.7rem,3.2vw,2.4rem)}
+  .founder p{color:rgba(255,255,255,.8);font-weight:600;margin:16px 0 0}
+  .founder .saas{margin-top:18px;font-family:var(--logo);font-weight:400;font-size:1.7rem;line-height:1.1;color:var(--gold)}
+  .founder .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+  .founder .chips span{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:9px 15px;font-weight:800;font-size:.9rem}
+  .founder .chips b{color:var(--gold)}
+  .fpanel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:var(--radius);padding:24px 26px}
+  .fstat{display:flex;align-items:baseline;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .fstat:last-child{border-bottom:none}
+  .fstat .fnum{font-family:var(--font);font-weight:900;font-size:1.85rem;color:var(--gold);line-height:1;letter-spacing:-.02em;flex:0 0 auto;min-width:78px}
+  .fstat .ftxt{font-weight:700;font-size:.94rem;color:rgba(255,255,255,.85)}
+
+  /* research */
+  .research{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .research .head{max-width:64ch}
+  .rcards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:30px}
+  .rcard{position:relative;background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:28px 24px;overflow:hidden;box-shadow:var(--shadow-sm)}
+  .rcard::before{content:"";position:absolute;top:0;left:0;width:100%;height:5px;background:var(--pink)}
+  .rcard:nth-child(2)::before{background:var(--indigo)}
+  .rcard:nth-child(3)::before{background:var(--gold)}
+  .rcard .rnum{font-family:var(--font);font-weight:900;letter-spacing:-.03em;font-size:3.4rem;line-height:1;color:var(--pink)}
+  .rcard:nth-child(2) .rnum{color:var(--indigo)}
+  .rcard:nth-child(3) .rnum{color:#b08400}
+  .rcard .rlbl{font-weight:800;font-size:1rem;margin:12px 0 14px;color:var(--ink);line-height:1.35}
+  .rcard .rcite{font-weight:700;font-size:.78rem;color:var(--muted)}
+  .research .note{margin-top:22px;font-weight:700;color:var(--muted);font-size:.95rem}
+  .research .bridge{margin-top:10px;font-size:1.18rem;font-weight:800;color:var(--ink)}
+  .research .bridge em{font-style:normal;color:var(--pink)}
+
+  /* pain tiles */
+  .pain{background:var(--cream)}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:30px}
+  .tile{background:#fff;border:1px solid var(--line);border-radius:var(--radius-sm);padding:22px 20px;box-shadow:var(--shadow-sm);transition:transform .15s ease,box-shadow .15s ease}
+  .tile:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .tile .n{font-family:var(--font);font-weight:900;font-size:1.55rem;letter-spacing:-.02em;color:var(--pink);line-height:1}
+  .tile:nth-child(4n+2) .n{color:var(--indigo)}
+  .tile:nth-child(4n+3) .n{color:#b08400}
+  .tile:nth-child(4n) .n{color:var(--pink)}
+  .tile p{font-weight:800;font-size:.98rem;color:var(--ink);margin:10px 0 0}
+
+  /* calc */
+  .calc{background:var(--indigo-deep);color:#fff;overflow:hidden}
+  .calc .grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;z-index:2}
+  .calc h2{color:#fff}
+  .calc .lead p{color:rgba(255,255,255,.82)}
+  .calc .eyebrow{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:var(--gold)}
+  .calc .eyebrow .dot{background:var(--gold)}
+  .calccard{background:#fff;border-radius:var(--radius);padding:30px;color:var(--ink);box-shadow:var(--shadow)}
+  .calcrow{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px dashed var(--line)}
+  .calcrow:last-of-type{border-bottom:none}
+  .calcrow .t{font-weight:700;color:var(--muted);font-size:.98rem}
+  .calcrow .v{font-weight:900;font-size:1.05rem}
+  .calctotal{margin-top:18px;background:var(--ink);color:#fff;border-radius:16px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center}
+  .calctotal .t{font-weight:800}
+  .calctotal .v{font-family:var(--font);font-weight:900;letter-spacing:-.02em;font-size:1.9rem;color:var(--gold);line-height:1}
+  .calc .punchline{margin-top:26px;font-size:1.18rem;font-weight:800;line-height:1.25;color:#fff}
+  .calc .punchline em{font-style:normal;color:var(--gold)}
+  .calc details.case{grid-column:1/-1}
+
+  /* solution */
+  .sol{background:#fff}
+  .sol .head{max-width:62ch}
+  .sollist{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+  .solitem{display:flex;gap:12px;align-items:flex-start;background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:16px;font-weight:800;font-size:.97rem}
+  .solitem .chk{width:24px;height:24px;border-radius:7px;background:var(--gold);color:var(--black);display:grid;place-items:center;flex:0 0 auto;font-size:.9rem;font-weight:900;margin-top:1px}
+  .corecard{margin-top:34px;background:linear-gradient(135deg,var(--indigo),var(--indigo-deep));color:#fff;border-radius:var(--radius);padding:38px 34px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+  .corecard .k{font-size:.76rem;text-transform:uppercase;letter-spacing:.16em;font-weight:900;color:var(--gold);position:relative;z-index:2}
+  .corecard .big{font-family:var(--logo);font-weight:400;font-size:clamp(1.6rem,3vw,2.3rem);line-height:1.1;margin-top:14px;position:relative;z-index:2}
+  .corecard .small{margin-top:16px;font-weight:700;color:rgba(255,255,255,.82);position:relative;z-index:2}
+  .corecard .small em{font-style:normal;color:var(--gold)}
+
+  /* final cta */
+  .cta{background:var(--gold);overflow:hidden}
+  .cta .grid{position:relative;z-index:2;text-align:center;max-width:64ch;margin:0 auto;padding:8px 0}
+  .cta h2{font-size:clamp(1.9rem,4vw,3rem);color:var(--black)}
+  .cta p{font-size:1.12rem;color:#2a2410;font-weight:700;margin:18px auto 30px;max-width:52ch}
+  .cta .btn-pink{font-size:1.1rem;padding:18px 34px}
+  .cta .mini{margin-top:18px;font-weight:800;font-size:.92rem;color:#5a4d10}
+
+  /* footer */
+  footer{background:var(--ink);color:#fff;padding:40px 0}
+  footer .row{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+  footer .name{font-family:var(--logo);font-size:1.6rem}
+  footer .muted{color:rgba(255,255,255,.6);font-weight:700;font-size:.9rem}
+  footer a{color:var(--gold);text-decoration:none;font-weight:800}
+
+  @media(max-width:920px){
+    .hero .grid{grid-template-columns:1fr;gap:36px}
+    .think .grid,.calc .grid,.founder .grid{grid-template-columns:1fr;gap:30px}
+    .ncards,.rcards{grid-template-columns:1fr}
+    .tiles{grid-template-columns:repeat(2,1fr)}
+    .sollist{grid-template-columns:1fr 1fr}
+    .casebody{grid-template-columns:1fr}
+  }
+  @media(max-width:560px){
+    .hero{padding:48px 0 64px}
+    .tiles{grid-template-columns:1fr}
+    .sollist{grid-template-columns:1fr}
+    .nav .name{font-size:1.3rem}
+    .hero .cta-row{flex-direction:column;align-items:stretch}
+    .btn{justify-content:center}
+  }
+
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .flow .step{animation:none;opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <g id="catchly-mark">
+      <g transform="rotate(-9 50 50)">
+        <rect x="14" y="14" width="62" height="62" rx="6" fill="#FFD400"/>
+        <path d="M44 20 L66 40 L30 44 Z" fill="#FE0B7D"/>
+        <rect x="20" y="44" width="22" height="22" rx="4" transform="rotate(45 31 55)" fill="#FE0B7D"/>
+        <circle cx="63" cy="56" r="13" fill="#FE0B7D"/>
+        <ellipse cx="47" cy="78" rx="9" ry="15" fill="#541388"/>
+      </g>
+    </g>
+  </defs>
+</svg>
+
+<!-- ===== NAV ===== -->
+<header class="nav">
+  <div class="wrap row">
+    <a class="brand" href="#top">
+      <svg class="mark" width="42" height="42" viewBox="0 0 96 96"><use href="#catchly-mark"/></svg>
+      <span class="name">Catchly</span>
+    </a>
+    <a class="btn btn-pink" href="https://calendly.com/ai-wieeve/fahrplan-gesprach" target="_blank" rel="noopener">Fahrplangespräch buchen <span class="arr">→</span></a>
+  </div>
+</header>
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="top">
+  <span class="confetti tri" style="top:8%;left:6%;border-width:0 16px 26px 16px;border-color:transparent transparent var(--pink) transparent;transform:rotate(18deg)"></span>
+  <span class="confetti sq" style="top:18%;right:4%;width:34px;height:34px;background:var(--gold);transform:rotate(22deg)"></span>
+  <span class="confetti circle" style="bottom:14%;left:3%;width:26px;height:26px;background:var(--indigo)"></span>
+  <span class="confetti ell" style="bottom:8%;right:10%;width:22px;height:40px;background:var(--pink);transform:rotate(-20deg)"></span>
+  <div class="wrap grid">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>Für inhabergeführte Schweizer Bau-KMU</span>
+      <h1 style="margin-top:20px">Die ersten <span class="hl">30 Minuten</span> entscheiden.</h1>
+      <p class="sub">Die Aufträge sind da. Was knapp wird, ist die Zeit deiner besten Leute. Wer im Erstkontakt schnell und sauber reagiert, gewinnt den Auftrag, oft noch bevor der Kunde überhaupt vergleicht.</p>
+      <div class="cta-row">
+        <a class="btn btn-pink" href="https://calendly.com/ai-wieeve/fahrplan-gesprach" target="_blank" rel="noopener">Erstkontakt-Check anfragen <span class="arr">→</span></a>
+        <a class="btn btn-ghost" href="#nutzen">Was bringt das meinem Betrieb?</a>
+      </div>
+      <div class="trust"><span class="clk">●</span> Catchly nimmt niemandem den Job weg. Catchly gibt deinem Team die Zeit zurück, die heute in Reibung verloren geht.</div>
+    </div>
+
+    <div class="hero-card reveal">
+      <div class="clock-wrap">
+        <div class="clock">
+          <svg width="96" height="96" viewBox="0 0 96 96">
+            <circle cx="48" cy="48" r="42" fill="none" stroke="#f0eadf" stroke-width="10"/>
+            <circle id="ring" cx="48" cy="48" r="42" fill="none" stroke="#FE0B7D" stroke-width="10" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264"/>
+          </svg>
+          <div class="lbl"><b>30</b><span>Minuten</span></div>
+        </div>
+        <div class="ctext">
+          <b>Das Zeitfenster des Vertrauens</b>
+          <span>Hier entscheidet sich, ob aus Interesse ein Termin wird.</span>
+        </div>
+      </div>
+      <div class="flow">
+        <div class="step ok"><span class="ic">⚡</span> Anfrage in Sekunden sauber aufgenommen</div>
+        <div class="step pink"><span class="ic">◎</span> Wichtige Infos direkt abgefragt &amp; qualifiziert</div>
+        <div class="step gold"><span class="ic">✓</span> Klarer nächster Schritt: Beratungsgespräch oder Vor-Ort-Termin</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== NUMBERS ===== -->
+<section class="numbers">
+  <span class="confetti circle" style="top:20%;left:5%;width:18px;height:18px;background:var(--gold);opacity:.5"></span>
+  <span class="confetti sq" style="bottom:18%;right:7%;width:22px;height:22px;background:var(--pink);transform:rotate(20deg);opacity:.5"></span>
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow"><span class="dot"></span>3 Fakten</span>
+      <h2 style="margin-top:16px">Warum Tempo gerade jetzt über den Auftrag entscheidet</h2>
+    </div>
+    <div class="ncards">
+      <div class="ncard reveal">
+        <div class="big">+2,1%</div>
+        <h3>Wachstum 2025 im Schweizer Bauhauptgewerbe</h3>
+        <p>Für 2026 wird erneut rund +2 % erwartet. Es gibt nicht weniger Arbeit, die Nachfrage bleibt stark.</p>
+      </div>
+      <div class="ncard reveal">
+        <div class="big">5'600</div>
+        <h3>fehlende Fachkräfte bis 2040</h3>
+        <p>Rund 16 % des Bedarfs im Bauhauptgewerbe. Deine vorhandenen Leute werden wertvoller, ihre Zeit ebenso.</p>
+      </div>
+      <div class="ncard reveal">
+        <div class="big">34%</div>
+        <h3>der Schweizer KMU setzen bewusst auf Automatisierung</h3>
+        <p>Innert eines Jahres von 22 % auf 34 % gestiegen. Smarte Entlastung ist längst im Mittelstand angekommen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PROBLEM ===== -->
+<section class="block" id="nutzen">
+  <div class="wrap lead reveal">
+    <span class="eyebrow"><span class="dot"></span>Die Ausgangslage</span>
+    <h2 style="margin-top:16px">Mehr Nachfrage. Höhere Ansprüche. Weniger Leute, die es stemmen.</h2>
+    <p class="big">Die Projekte werden technischer, die Kunden erwarten schnellere Rückmeldung, und gute Fachkräfte sind schwer zu finden. Die Arbeit verteilt sich auf weniger Schultern.</p>
+    <p>Genau deshalb entscheidet sich im Erstkontakt, ob aus einer Anfrage ein Auftrag wird oder ob sie im Tagesgeschäft untergeht. Die ersten 30 Minuten nach einer Anfrage sind kein Admin-Thema. Sie sind dein direktester Hebel auf Umsatz und Marge.</p>
+  </div>
+</section>
+
+<div class="splitline"></div>
+
+<!-- ===== ENGPASS (OWNER) ===== -->
+<section class="block think">
+  <div class="wrap grid">
+    <div class="reveal">
+      <span class="eyebrow"><span class="dot"></span>Kennst du das?</span>
+      <h2 style="margin-top:16px">Du kannst nicht überall gleichzeitig sein.</h2>
+      <p>Du stehst auf der Baustelle, das Telefon klingelt, eine starke Anfrage kommt rein. Du willst zurückrufen, aber dazwischen liegen drei Monteure, ein Lieferengpass und ein Kunde, der eine Rechnung reklamiert.</p>
+      <p>Am Abend ist die Anfrage noch da. Drei Tage später hat der Kunde schon beim Nächsten unterschrieben. Das gehört zum Alltag eines inhabergeführten Betriebs. Du trägst zu viel gleichzeitig, und genau deshalb fallen dir gute Chancen aus dem Wagen, ohne dass du es überhaupt merkst.</p>
+      <div class="benefit">Dein Nutzen: <em>Keine starke Anfrage bleibt mehr liegen, egal wo du gerade stehst.</em></div>
+    </div>
+    <div class="scene reveal">
+      <div class="k">Ein ganz normaler Dienstag</div>
+      <div class="line"><span class="t">08:12</span><span>Starke Anfrage für eine Sanierung landet auf der Mailbox.</span></div>
+      <div class="line"><span class="t">08:13</span><span>Du bist auf dem Dach. Hände voll. Keine Zeit für den Rückruf.</span></div>
+      <div class="line"><span class="t">14:30</span><span>Drei weitere Anrufe, ein Lieferproblem, die Anfrage ist aus dem Kopf.</span></div>
+      <div class="line"><span class="t">+3 Tage</span><span>Der Kunde hat beim Mitbewerber unterschrieben, der gleich zurückrief.</span></div>
+      <div class="out">Am Ende gab die Reaktionszeit den Ausschlag. <em>Die Anlage wäre top gewesen.</em></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <details class="case reveal">
+      <summary>Fallbeispiel aufklappen: Was dieser Engpass an Zeit kostet, klein gegen mittel <span class="plus">+</span></summary>
+      <div class="casebody">
+        <div class="caseco">
+          <span class="tag">Betrieb A · 10 Mitarbeitende</span>
+          <div class="crow"><span>Anfragen pro Woche</span><b>≈ 10</b></div>
+          <div class="crow"><span>Reibung pro Anfrage</span><b>20 Min</b></div>
+          <div class="crow"><span>Pro Woche</span><b>≈ 3,3 Std</b></div>
+          <div class="crow"><span>Pro Jahr</span><b>≈ 170 Std</b></div>
+          <div class="csum">über 4 Arbeitswochen pro Jahr<small>Zeit, die niemand für Kunden nutzt.</small></div>
+        </div>
+        <div class="caseco">
+          <span class="tag">Betrieb B · 50 Mitarbeitende</span>
+          <div class="crow"><span>Anfragen pro Woche</span><b>≈ 35</b></div>
+          <div class="crow"><span>Reibung pro Anfrage</span><b>20 Min</b></div>
+          <div class="crow"><span>Pro Woche</span><b>≈ 11,7 Std</b></div>
+          <div class="crow"><span>Pro Jahr</span><b>≈ 570 Std</b></div>
+          <div class="csum">rund 14 Arbeitswochen pro Jahr<small>Ein Drittel einer Vollzeitstelle, nur für Reibung.</small></div>
+        </div>
+        <p class="casenote">Illustrativ und bewusst konservativ gerechnet. Ersetz die Zahlen durch deine eigenen. Im Fahrplangespräch machen wir genau das.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ===== PAIN TILES ===== -->
+<section class="block pain">
+  <div class="wrap">
+    <div class="reveal" style="max-width:62ch">
+      <span class="eyebrow"><span class="dot"></span>Wo es konkret passiert</span>
+      <h2 style="margin-top:16px">Acht Stellen, an denen gute Aufträge leise verloren gehen</h2>
+      <p>Jeder einzelne Punkt ist ein Hebel, den du sofort drehen kannst. Erkennst du deinen Betrieb wieder?</p>
+    </div>
+    <div class="tiles">
+      <div class="tile reveal"><div class="n">01</div><p>Anfragen bleiben liegen</p></div>
+      <div class="tile reveal"><div class="n">02</div><p>Rückrufe passieren zu spät</p></div>
+      <div class="tile reveal"><div class="n">03</div><p>Zuständigkeiten sind unklar</p></div>
+      <div class="tile reveal"><div class="n">04</div><p>Gute Anfragen werden nicht priorisiert</p></div>
+      <div class="tile reveal"><div class="n">05</div><p>Unpassende Anfragen fressen Zeit</p></div>
+      <div class="tile reveal"><div class="n">06</div><p>Besichtigungen sind schlecht vorbereitet</p></div>
+      <div class="tile reveal"><div class="n">07</div><p>Nachfassen passiert zufällig</p></div>
+      <div class="tile reveal"><div class="n">08</div><p>Vieles hängt an einzelnen Personen oder ist nicht klar geregelt</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOUNDER (WARUM) ===== -->
+<section class="block founder">
+  <span class="confetti circle" style="top:-30px;right:-30px;width:160px;height:160px;background:rgba(84,19,136,.35)"></span>
+  <span class="confetti sq" style="bottom:-20px;left:10%;width:80px;height:80px;background:rgba(255,212,0,.1);transform:rotate(18deg)"></span>
+  <div class="wrap grid">
+    <div class="fpanel reveal">
+      <div class="fstat"><span class="fnum">20 J.</span><span class="ftxt">Vertriebspraxis direkt aus dem Tagesgeschäft</span></div>
+      <div class="fstat"><span class="fnum">CH</span><span class="ftxt">Verschiedene Start-ups in den Schweizer Markt gebracht</span></div>
+      <div class="fstat"><span class="fnum">30 %</span><span class="ftxt">Portfolio-Steigerung im B2B erreicht</span></div>
+      <div class="fstat"><span class="fnum">10 J.</span><span class="ftxt">Zehnjahresvertrag im B2B abgeschlossen</span></div>
+    </div>
+    <div class="reveal">
+      <span class="eyebrow"><span class="dot"></span>Warum es Catchly gibt</span>
+      <h2 style="margin-top:16px">Ich habe Catchly gebaut, weil ich genau diesen Bruch kenne.</h2>
+      <p>In knapp 20 Jahren Vertrieb habe ich immer wieder dasselbe gesehen. Was am Ende über den Kauf entscheidet, ist oft ganz einfach: wie schnell und wie sauber jemand im ersten Moment reagiert. Genau dort scheitern viele inhabergeführte KMU. Eine einzelne Person kann nicht alles gleichzeitig tragen.</p>
+      <p>Was mich stört: KMU werden mit Tools überschüttet, die von Leuten gebaut wurden, die selbst noch nie einen Auftrag abgeschlossen haben. Catchly ist die Automation, die ich mir damals selbst gewünscht hätte. Ein echter Vertriebsprozess, der reagiert, qualifiziert und nachfasst, ohne dass sich der Inhaber dabei zerreissen muss.</p>
+      <div class="saas">Built by Sales. Not by SaaS.</div>
+      <div class="chips">
+        <span><b>CH</b>&nbsp; Schweizer Gründerin, Schweizer Markt</span>
+        <span><b>1:1</b>&nbsp; Fahrplangespräch direkt mit der Gründerin</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESEARCH (STUDIE) ===== -->
+<section class="block research">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow"><span class="dot"></span>Und das ist keine Meinung</span>
+      <h2 style="margin-top:16px">Tempo im Erstkontakt ist messbar. Harvard hat es belegt.</h2>
+      <p>1,25 Millionen Verkaufsanfragen wurden ausgewertet. Das Muster ist eindeutig: Wer zuerst und strukturiert reagiert, qualifiziert deutlich häufiger einen Termin. Der Grund ist simpel: Er war schneller da.</p>
+    </div>
+    <div class="rcards">
+      <div class="rcard reveal">
+        <div class="rnum">7×</div>
+        <div class="rlbl">höhere Chance, eine Anfrage zu qualifizieren, wenn innerhalb 1 Stunde reagiert wird statt auch nur eine Stunde später.</div>
+        <div class="rcite">Harvard Business Review, „The Short Life of Online Sales Leads", 2011</div>
+      </div>
+      <div class="rcard reveal">
+        <div class="rnum">21×</div>
+        <div class="rlbl">höhere Qualifikationschance bei Reaktion in 5 Minuten statt 30 Minuten.</div>
+        <div class="rcite">Lead Response Management Study, Dr. James Oldroyd (MIT)</div>
+      </div>
+      <div class="rcard reveal">
+        <div class="rnum">100×</div>
+        <div class="rlbl">höhere Chance, den Kunden überhaupt zu erreichen, in 5 statt 30 Minuten.</div>
+        <div class="rcite">Lead Response Management Study, Dr. James Oldroyd (MIT)</div>
+      </div>
+    </div>
+    <p class="note reveal">Gegenüber 24 Stunden Wartezeit sinkt die Chance, die Anfrage noch zu gewinnen, sogar um mehr als das 60-Fache.</p>
+    <p class="bridge reveal">Übersetzt auf deinen Betrieb: Jede Anfrage, die schnell und sauber aufgenommen wird, ist <em>bares Auftragspotenzial.</em></p>
+  </div>
+</section>
+
+<!-- ===== CALC (USE CASE / FRANKEN) ===== -->
+<section class="block calc" id="rechnung">
+  <span class="confetti tri" style="top:12%;right:6%;border-width:0 18px 30px 18px;border-color:transparent transparent rgba(255,212,0,.25) transparent;transform:rotate(14deg)"></span>
+  <span class="confetti circle" style="bottom:14%;left:4%;width:30px;height:30px;background:rgba(254,11,125,.3)"></span>
+  <div class="wrap grid">
+    <div class="lead reveal">
+      <span class="eyebrow"><span class="dot"></span>Was dich der Erstkontakt kostet</span>
+      <h2 style="margin-top:16px">20 Minuten Reibung pro Anfrage. Hochgerechnet sind das schnell sechsstellige Beträge.</h2>
+      <p>Wenn das Anfragevolumen steigt, wird es schwierig. Dein Team kann die Menge kaum noch abfangen, und die guten Anfragen lassen sich nicht mehr sauber qualifizieren. Genau dann gehen Aufträge verloren. Diese verlorene Zeit lässt sich rechnen. Zuerst in Stunden, dann in Franken.</p>
+      <div class="punchline">300+ Stunden im Jahr klingen abstrakt.<br><em>In Franken werden sie unübersehbar.</em></div>
+    </div>
+    <div class="calccard reveal">
+      <div class="calcrow"><span class="t">Rückfragen &amp; Sucherei</span><span class="v">10 Min</span></div>
+      <div class="calcrow"><span class="t">Manuelle Weiterleitung</span><span class="v">5 Min</span></div>
+      <div class="calcrow"><span class="t">Terminabstimmung / Nachfassen</span><span class="v">5 Min</span></div>
+      <div class="calcrow"><span class="t">→ Reibung pro Anfrage</span><span class="v">20 Min</span></div>
+      <div class="calcrow"><span class="t">× 20 Anfragen / Woche</span><span class="v">≈ 6,5 Std / Woche</span></div>
+      <div class="calcrow"><span class="t">Pro Monat</span><span class="v">≈ 26 Std</span></div>
+      <div class="calctotal"><span class="t">Pro Jahr</span><span class="v">300+ Std</span></div>
+      <p style="margin-top:14px;font-weight:700;color:var(--muted);font-size:.92rem">Mehrere Arbeitswochen pro Jahr. Und das ist erst die verlorene Zeit, noch gar nicht der entgangene Umsatz.</p>
+    </div>
+
+    <details class="case reveal">
+      <summary>Fallbeispiel aufklappen: Was das in Franken bedeutet, klein gegen mittel <span class="plus">+</span></summary>
+      <div class="casebody">
+        <div class="caseco">
+          <span class="tag">Betrieb A · 10 Mitarbeitende</span>
+          <div class="crow"><span>Verlorene Innendienst-Zeit</span><b>≈ 170 Std × 65.–</b></div>
+          <div class="crow"><span>= reine Zeitkosten / Jahr</span><b>≈ 11'000.–</b></div>
+          <div class="crow"><span>Verpasste Aufträge</span><b>1/Mt × Ø 6'000.–</b></div>
+          <div class="crow"><span>= entgangener Umsatz / Jahr</span><b>≈ 72'000.–</b></div>
+          <div class="csum">≈ 80'000 CHF / Jahr<small>Potenzial, das ungenutzt im Erstkontakt liegt.</small></div>
+        </div>
+        <div class="caseco">
+          <span class="tag">Betrieb B · 50 Mitarbeitende</span>
+          <div class="crow"><span>Verlorene Innendienst-Zeit</span><b>≈ 570 Std × 65.–</b></div>
+          <div class="crow"><span>= reine Zeitkosten / Jahr</span><b>≈ 37'000.–</b></div>
+          <div class="crow"><span>Verpasste Aufträge</span><b>3/Mt × Ø 12'000.–</b></div>
+          <div class="crow"><span>= entgangener Umsatz / Jahr</span><b>≈ 432'000.–</b></div>
+          <div class="csum">≈ 450'000 CHF / Jahr<small>Potenzial, das ein sauberer Erstkontakt zurückholt.</small></div>
+        </div>
+        <p class="casenote">Konservativ und illustrativ gerechnet (Stundensatz, Auftragswerte und Anfragevolumen variieren je Betrieb). Im Fahrplangespräch rechnen wir es mit deinen echten Zahlen. So siehst du deine tatsächliche Grössenordnung.</p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ===== SOLUTION ===== -->
+<section class="block sol">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow"><span class="dot"></span>Die Lösung</span>
+      <h2 style="margin-top:16px">Schneller, klarer, wiederholbar, ohne dass jemand mehr arbeiten muss.</h2>
+      <p>Catchly setzt genau im ersten Kontakt an. Ein pragmatischer Entlastungshebel, der deinem Team Zeit zurückgibt und gute Chancen sichtbar macht, auch wenn viele Anfragen gleichzeitig hereinkommen. Catchly hilft dir dabei:</p>
+    </div>
+    <div class="sollist">
+      <div class="solitem reveal"><span class="chk">✓</span>Anfragen schneller aufnehmen</div>
+      <div class="solitem reveal"><span class="chk">✓</span>Kundenanliegen sauber strukturieren</div>
+      <div class="solitem reveal"><span class="chk">✓</span>Wichtige Infos direkt abfragen</div>
+      <div class="solitem reveal"><span class="chk">✓</span>Gute von unpassenden Anfragen unterscheiden</div>
+      <div class="solitem reveal"><span class="chk">✓</span>Die Zentrale spürbar entlasten</div>
+      <div class="solitem reveal"><span class="chk">✓</span>Dich aus dem Flaschenhals holen</div>
+      <div class="solitem reveal"><span class="chk">✓</span>Beratungstermine sauber vorbereiten</div>
+      <div class="solitem reveal"><span class="chk">✓</span>Nachfassen verbindlicher machen</div>
+      <div class="solitem reveal"><span class="chk">✓</span>Wertvolle Chancen nicht verlieren</div>
+    </div>
+
+    <div class="corecard reveal">
+      <span class="confetti circle" style="top:-30px;right:-20px;width:150px;height:150px;background:rgba(255,212,0,.12)"></span>
+      <span class="confetti sq" style="bottom:-24px;right:18%;width:90px;height:90px;background:rgba(254,11,125,.16);transform:rotate(20deg)"></span>
+      <div class="k">Catchly-Kernsatz</div>
+      <div class="big">Catchly macht aus Anfragechaos einen strukturierten Erstkontakt.</div>
+      <div class="small">Damit auch bei hohem Anfragevolumen die guten Chancen nicht untergehen, dein Team entlastet wird und aus Interesse <em>klare Beratungstermine</em> werden.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="block cta">
+  <span class="confetti tri" style="top:14%;left:8%;border-width:0 20px 34px 20px;border-color:transparent transparent var(--indigo) transparent;transform:rotate(-12deg);opacity:.85"></span>
+  <span class="confetti sq" style="top:22%;right:9%;width:30px;height:30px;background:var(--pink);transform:rotate(18deg)"></span>
+  <span class="confetti ell" style="bottom:16%;left:14%;width:22px;height:40px;background:var(--indigo);transform:rotate(20deg)"></span>
+  <span class="confetti circle" style="bottom:20%;right:13%;width:26px;height:26px;background:#fff"></span>
+  <div class="wrap grid reveal">
+    <h2>Wie viel Auftragspotenzial steckt in deinen ersten 30 Minuten?</h2>
+    <p>Im 15-Minuten-Fahrplangespräch rechnen wir mit deinen echten Zahlen, wo heute Anfragen hängen bleiben und welcher kleine Prozesshebel sofort Wirkung zeigt. Kein Pitch. Du entscheidest danach.</p>
+    <a class="btn btn-pink" href="https://calendly.com/ai-wieeve/fahrplan-gesprach" target="_blank" rel="noopener">Fahrplangespräch buchen <span class="arr">→</span></a>
+    <div class="mini">Kostenlos &amp; unverbindlich · 15 Minuten · direkt mit der Gründerin</div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="wrap row">
+    <a class="brand" href="#top" style="gap:10px">
+      <svg class="mark" width="38" height="38" viewBox="0 0 96 96"><use href="#catchly-mark"/></svg>
+      <span class="name" style="color:#fff">Catchly</span>
+    </a>
+    <span class="muted">Mensch bleibt. Reibung raus. Für Schweizer Bau-KMU.</span>
+    <a href="https://calendly.com/ai-wieeve/fahrplan-gesprach" target="_blank" rel="noopener">Fahrplangespräch buchen →</a>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})
+  },{threshold:.14});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3)*0.08+'s';io.observe(el)});
+
+  const ring=document.getElementById('ring');
+  if(ring){
+    const ro=new IntersectionObserver((es)=>{
+      es.forEach(e=>{if(e.isIntersecting){ring.style.transition='stroke-dashoffset 1.6s ease';ring.style.strokeDashoffset='40';ro.disconnect()}})
+    },{threshold:.4});
+    ro.observe(ring.closest('.hero-card'));
+  }
+</script>
+</body>
+</html>
