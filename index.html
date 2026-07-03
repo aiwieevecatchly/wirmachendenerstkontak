@@ -234,6 +234,92 @@
   .corecard .small{margin-top:16px;font-weight:700;color:rgba(255,255,255,.82);position:relative;z-index:2}
   .corecard .small em{font-style:normal;color:var(--gold)}
 
+  /* agent live testen */
+  .agentlive{background:var(--cream);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .agentlive .head{max-width:60ch}
+  .agentcard{margin-top:30px;background:linear-gradient(135deg,var(--indigo),var(--indigo-deep));color:#fff;border-radius:var(--radius);padding:38px 40px;position:relative;overflow:hidden;box-shadow:var(--shadow);display:grid;grid-template-columns:1.12fr .88fr;gap:36px;align-items:center}
+  .agentcard-copy{position:relative;z-index:2;text-align:left}
+  .agentcard .k{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;font-weight:900;color:var(--gold)}
+  .agentcard .atext{font-weight:800;font-size:1.2rem;margin:12px 0 20px;max-width:34ch}
+  .agentcard .btn-start{display:inline-flex;align-items:center;gap:10px;font-weight:900;font-size:1.05rem;border:none;border-radius:999px;padding:16px 30px;cursor:pointer;background:var(--gold);color:#1a1200;box-shadow:0 12px 26px rgba(255,212,0,.3);transition:transform .15s ease,box-shadow .15s ease}
+  .agentcard .btn-start:hover{transform:translateY(-2px);box-shadow:0 18px 34px rgba(255,212,0,.42)}
+  .agentchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .agentchips span{font-weight:800;font-size:.8rem;color:rgba(255,255,255,.85);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 12px}
+  .agentcard .ahint{font-weight:700;font-size:.82rem;color:rgba(255,255,255,.6);max-width:44ch;margin:16px 0 0}
+  .agentcard .ahint a{color:var(--gold);text-decoration:underline}
+
+  /* dekorativer Voice-Visual in der Karte */
+  .agentviz{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:20px}
+  .viz-orb{position:relative;width:134px;height:134px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 32% 28%,#ff7cc0,var(--pink) 44%,var(--indigo-deep) 100%);box-shadow:0 18px 44px rgba(254,11,125,.4);animation:breathe 3.2s ease-in-out infinite}
+  .viz-orb::before{content:"";position:absolute;inset:-15px;border-radius:50%;border:2px solid rgba(255,212,0,.45);animation:haloPulse 3.2s ease-in-out infinite}
+  .viz-orb::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 68% 72%,rgba(255,255,255,.28),transparent 55%)}
+  .viz-orb svg{position:relative;z-index:2}
+  .eqbars{display:flex;align-items:flex-end;justify-content:center;gap:5px;height:40px}
+  .eqbars span{width:6px;border-radius:3px;background:linear-gradient(var(--gold),var(--pink));height:24%;animation:eq 1.2s ease-in-out infinite}
+  .eqbars span:nth-child(2){animation-delay:.15s}
+  .eqbars span:nth-child(3){animation-delay:.30s}
+  .eqbars span:nth-child(4){animation-delay:.10s}
+  .eqbars span:nth-child(5){animation-delay:.45s}
+  .eqbars span:nth-child(6){animation-delay:.22s}
+  .eqbars span:nth-child(7){animation-delay:.38s}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  @keyframes haloPulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.14);opacity:.14}}
+  @keyframes eq{0%,100%{height:18%}50%{height:88%}}
+
+  /* agent popup (eigenes UI, kein Fremd-Widget) */
+  .agentmodal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+  .agentmodal.open{display:flex}
+  .am-backdrop{position:absolute;inset:0;background:rgba(21,16,28,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .am-dialog{position:relative;z-index:2;width:min(440px,100%);background:linear-gradient(160deg,var(--indigo),var(--indigo-deep));color:#fff;border-radius:26px;padding:34px 30px 28px;box-shadow:0 40px 90px rgba(20,6,40,.5);text-align:center;overflow:hidden;animation:pop .28s cubic-bezier(.2,.9,.3,1.2)}
+  @keyframes pop{from{opacity:0;transform:translateY(16px) scale(.96)}to{opacity:1;transform:none}}
+  .am-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:none;background:rgba(255,255,255,.12);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;z-index:3;transition:background .15s ease}
+  .am-x:hover{background:rgba(255,255,255,.24)}
+  .am-k{font-size:.72rem;text-transform:uppercase;letter-spacing:.16em;font-weight:900;color:var(--gold);position:relative;z-index:2}
+  .am-title{font-size:1.4rem;font-weight:900;margin:8px 0 0;color:#fff;position:relative;z-index:2}
+  .am-orb-wrap{position:relative;width:190px;height:190px;margin:20px auto 4px;display:grid;place-items:center;z-index:2}
+  .am-ring{position:absolute;width:150px;height:150px;border-radius:50%;border:2px solid rgba(255,212,0,.5);animation:haloPulse 3s ease-in-out infinite}
+  .am-ring.am-ring2{width:186px;height:186px;border-color:rgba(255,255,255,.14);animation:none}
+  .am-orb{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#ff7cc0,var(--pink) 42%,var(--indigo) 100%);box-shadow:0 14px 40px rgba(254,11,125,.4);transition:transform .08s linear,box-shadow .12s linear;position:relative}
+  .am-orb::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 68% 72%,rgba(255,255,255,.28),transparent 55%)}
+  .am-mic{position:absolute;z-index:3;pointer-events:none}
+  .am-wave{display:flex;align-items:flex-end;justify-content:center;gap:5px;height:32px;margin:2px auto 0;position:relative;z-index:2;opacity:.45;transition:opacity .2s ease}
+  .am-wave span{width:6px;border-radius:3px;background:linear-gradient(var(--gold),var(--pink));height:20%;animation:eq 1.3s ease-in-out infinite}
+  .am-wave span:nth-child(2){animation-delay:.14s}
+  .am-wave span:nth-child(3){animation-delay:.28s}
+  .am-wave span:nth-child(4){animation-delay:.10s}
+  .am-wave span:nth-child(5){animation-delay:.42s}
+  .am-wave span:nth-child(6){animation-delay:.20s}
+  .am-wave span:nth-child(7){animation-delay:.36s}
+  .agentmodal.speaking .am-wave{opacity:1}
+  .agentmodal.speaking .am-wave span{animation-duration:.7s}
+  .agentmodal.speaking .am-ring2{animation:ripple 1.3s ease-out infinite}
+  @keyframes ripple{0%{transform:scale(.72);opacity:.75}100%{transform:scale(1.28);opacity:0}}
+  .am-status{margin-top:6px;font-weight:900;font-size:1.05rem;color:#fff;min-height:1.4em;position:relative;z-index:2}
+  .am-sub{font-weight:700;font-size:.85rem;color:rgba(255,255,255,.66);margin-top:3px;min-height:1.2em;position:relative;z-index:2}
+  .am-field{margin-top:16px;text-align:left;position:relative;z-index:2}
+  .am-field[hidden]{display:none}
+  .am-label{display:block;font-weight:800;font-size:.78rem;color:rgba(255,255,255,.8);margin-bottom:6px}
+  .am-emailrow{display:flex;gap:8px;align-items:stretch}
+  .am-emailrow .am-input{flex:1;min-width:0}
+  .am-btn-send{border:none;border-radius:12px;padding:0 20px;font-weight:900;font-size:.95rem;cursor:pointer;background:var(--gold);color:#1a1200;white-space:nowrap;transition:transform .15s ease}
+  .am-btn-send:hover{transform:translateY(-1px)}
+  .am-btn-send:disabled{opacity:.6;cursor:default;transform:none}
+  .am-input{width:100%;border:2px solid rgba(255,255,255,.2);background:rgba(255,255,255,.1);color:#fff;border-radius:12px;padding:12px 14px;font-family:var(--font);font-weight:700;font-size:1rem;outline:none;transition:border-color .15s ease,background .15s ease}
+  .am-input::placeholder{color:rgba(255,255,255,.5)}
+  .am-input:focus{border-color:var(--gold);background:rgba(255,255,255,.16)}
+  .am-input.am-invalid{border-color:#ff9a9a;background:rgba(255,80,80,.14)}
+  .am-actions{display:flex;gap:12px;justify-content:center;margin-top:18px;position:relative;z-index:2}
+  .am-btn{display:inline-flex;align-items:center;gap:9px;font-weight:900;font-size:1rem;border:none;border-radius:999px;padding:14px 26px;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease,opacity .15s ease}
+  .am-btn-go{background:var(--gold);color:#1a1200;box-shadow:0 12px 26px rgba(255,212,0,.34)}
+  .am-btn-go:hover{transform:translateY(-2px)}
+  .am-btn-go:disabled{opacity:.6;cursor:default;transform:none}
+  .am-btn-stop{background:rgba(255,255,255,.14);color:#fff}
+  .am-btn-stop:hover{background:rgba(255,255,255,.24)}
+  .am-btn[hidden]{display:none}
+  .am-hint{font-weight:700;font-size:.78rem;color:rgba(255,255,255,.6);margin-top:18px;position:relative;z-index:2;line-height:1.5}
+  .am-hint.am-err{color:#ffc9c9}
+  @media(prefers-reduced-motion:reduce){.am-dialog{animation:none}.am-ring,.am-wave span,.viz-orb,.viz-orb::before,.eqbars span{animation:none}.agentmodal.speaking .am-ring2{animation:none}}
+
   /* final cta */
   .cta{background:var(--gold);overflow:hidden}
   .cta .grid{position:relative;z-index:2;text-align:center;max-width:64ch;margin:0 auto;padding:8px 0}
@@ -256,6 +342,11 @@
     .tiles{grid-template-columns:repeat(2,1fr)}
     .sollist{grid-template-columns:1fr 1fr}
     .casebody{grid-template-columns:1fr}
+    .agentcard{grid-template-columns:1fr;gap:26px}
+    .agentcard-copy{text-align:center}
+    .agentviz{order:-1}
+    .agentchips{justify-content:center}
+    .agentcard .atext,.agentcard .ahint{max-width:none;margin-left:auto;margin-right:auto}
   }
   @media(max-width:560px){
     .hero{padding:48px 0 64px}
@@ -309,12 +400,12 @@
   <span class="confetti ell" style="bottom:8%;right:10%;width:22px;height:40px;background:var(--pink);transform:rotate(-20deg)"></span>
   <div class="wrap grid">
     <div>
-      <span class="eyebrow"><span class="dot"></span>Für inhabergeführte Schweizer Bau-KMU</span>
+      <span class="eyebrow"><span class="dot"></span>Für inhabergeführte Schweizer Energie- &amp; Haustechnik-Betriebe</span>
       <h1 style="margin-top:20px">Die ersten <span class="hl">30 Minuten</span> entscheiden.</h1>
       <p class="sub">Die Aufträge sind da. Was knapp wird, ist die Zeit deiner besten Leute. Wer im Erstkontakt schnell und sauber reagiert, gewinnt den Auftrag, oft noch bevor der Kunde überhaupt vergleicht.</p>
       <div class="cta-row">
         <a class="btn btn-pink" href="https://calendly.com/ai-wieeve/fahrplan-gesprach" target="_blank" rel="noopener">Erstkontakt-Check anfragen <span class="arr">→</span></a>
-        <a class="btn btn-ghost" href="#nutzen">Was bringt das meinem Betrieb?</a>
+        <a class="btn btn-ghost" href="#agent" data-agent-open>Agent live testen <span class="arr">→</span></a>
       </div>
       <div class="trust"><span class="clk">●</span> Catchly nimmt niemandem den Job weg. Catchly gibt deinem Team die Zeit zurück, die heute in Reibung verloren geht.</div>
     </div>
@@ -342,30 +433,66 @@
   </div>
 </section>
 
+<!-- ===== AGENT LIVE TESTEN ===== -->
+<section class="block agentlive" id="agent">
+  <div class="wrap">
+    <div class="head reveal">
+      <span class="eyebrow"><span class="dot"></span>Live-Demo · Jetzt testen</span>
+      <h2 style="margin-top:16px">Rede zuerst selbst mit dem Agenten.</h2>
+      <p>Sag ihm einfach dein Anliegen, ganz natürlich. Du hörst in unter einer Minute, wie Catchly eine Anfrage aufnimmt, qualifiziert und ein erstes Fahrplangespräch vorbereitet. Kein Verkaufsgespräch, du entscheidest danach.</p>
+    </div>
+    <div class="agentcard reveal">
+      <span class="confetti circle" style="top:-30px;right:-20px;width:150px;height:150px;background:rgba(255,212,0,.12)"></span>
+      <span class="confetti sq" style="bottom:-24px;left:12%;width:90px;height:90px;background:rgba(254,11,125,.16);transform:rotate(20deg)"></span>
+      <div class="agentcard-copy">
+        <div class="k">Live-Demo · ca. 60 Sekunden</div>
+        <p class="atext">Sprich jetzt mit dem Catchly-Agenten und erlebe den Erstkontakt selbst.</p>
+        <button class="btn-start" type="button" data-agent-open>🎤 Jetzt mit dem Agenten sprechen</button>
+        <div class="agentchips">
+          <span>● Echtzeit-Stimme</span>
+          <span>● Kein Login</span>
+          <span>● Du entscheidest danach</span>
+        </div>
+        <p class="ahint">Der Agent öffnet sich direkt hier auf der Seite. Beim Start fragt dein Browser nach Mikrofon-Zugriff. Du sprichst mit einem KI-Agenten, bitte keine sensiblen Daten teilen.</p>
+      </div>
+      <div class="agentviz" aria-hidden="true">
+        <div class="viz-orb">
+          <svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="9" y="3" width="6" height="11" rx="3" fill="#fff"/>
+            <path d="M6 11a6 6 0 0 0 12 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 17v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="eqbars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== NUMBERS ===== -->
 <section class="numbers">
   <span class="confetti circle" style="top:20%;left:5%;width:18px;height:18px;background:var(--gold);opacity:.5"></span>
   <span class="confetti sq" style="bottom:18%;right:7%;width:22px;height:22px;background:var(--pink);transform:rotate(20deg);opacity:.5"></span>
   <div class="wrap">
     <div class="head reveal">
-      <span class="eyebrow"><span class="dot"></span>3 Fakten</span>
-      <h2 style="margin-top:16px">Warum Tempo gerade jetzt über den Auftrag entscheidet</h2>
+      <span class="eyebrow"><span class="dot"></span>Branchen-Realität 2025/26</span>
+      <h2 style="margin-top:16px">Der Markt für kleine Energie-Projekte wird härter, genau jetzt zählt jede Anfrage</h2>
     </div>
     <div class="ncards">
       <div class="ncard reveal">
-        <div class="big">+2,1%</div>
-        <h3>Wachstum 2025 im Schweizer Bauhauptgewerbe</h3>
-        <p>Für 2026 wird erneut rund +2 % erwartet. Es gibt nicht weniger Arbeit, die Nachfrage bleibt stark.</p>
+        <div class="big">−30%</div>
+        <h3>Nachfrage-Einbruch bei kleinen Solaranlagen 2025</h3>
+        <p>Die Anmeldungen bis 30 kW sind von 5'137 auf 3'639 gefallen. Das Kerngeschäft vieler Betriebe wird spürbar dünner.</p>
       </div>
       <div class="ncard reveal">
-        <div class="big">5'600</div>
-        <h3>fehlende Fachkräfte bis 2040</h3>
-        <p>Rund 16 % des Bedarfs im Bauhauptgewerbe. Deine vorhandenen Leute werden wertvoller, ihre Zeit ebenso.</p>
+        <div class="big">360.–</div>
+        <h3>Zuschuss pro kW bei rund 1'600.– Investition</h3>
+        <p>Viele Kundinnen und Kunden zögern, weil die Amortisation unsicher wirkt. Sie investieren nur, wenn sie im Gespräch Vertrauen fassen.</p>
       </div>
       <div class="ncard reveal">
-        <div class="big">34%</div>
-        <h3>der Schweizer KMU setzen bewusst auf Automatisierung</h3>
-        <p>Innert eines Jahres von 22 % auf 34 % gestiegen. Smarte Entlastung ist längst im Mittelstand angekommen.</p>
+        <div class="big">70%</div>
+        <h3>Einspeisegrenze für neue PV-Anlagen seit 1.1.2026</h3>
+        <p>Mehr Fragen zu Speicher, Steuerung und Eigenverbrauch, also mehr Beratungsbedarf schon im allerersten Kontakt.</p>
       </div>
     </div>
   </div>
@@ -374,10 +501,10 @@
 <!-- ===== PROBLEM ===== -->
 <section class="block" id="nutzen">
   <div class="wrap lead reveal">
-    <span class="eyebrow"><span class="dot"></span>Die Ausgangslage</span>
-    <h2 style="margin-top:16px">Mehr Nachfrage. Höhere Ansprüche. Weniger Leute, die es stemmen.</h2>
-    <p class="big">Die Projekte werden technischer, die Kunden erwarten schnellere Rückmeldung, und gute Fachkräfte sind schwer zu finden. Die Arbeit verteilt sich auf weniger Schultern.</p>
-    <p>Genau deshalb entscheidet sich im Erstkontakt, ob aus einer Anfrage ein Auftrag wird oder ob sie im Tagesgeschäft untergeht. Die ersten 30 Minuten nach einer Anfrage sind kein Admin-Thema. Sie sind dein direktester Hebel auf Umsatz und Marge.</p>
+    <span class="eyebrow"><span class="dot"></span>Die Ausgangslage in der Energiebranche</span>
+    <h2 style="margin-top:16px">Weniger sichere Anfragen. Mehr Verunsicherung. Mehr Erklärbedarf.</h2>
+    <p class="big">Die Regeln ändern sich laufend: kantonaler Flickenteppich und MuKEn 2025, eine durch das EU-Stromabkommen wackelnde Einspeisevergütung, dazu die neue 70-Prozent-Einspeisegrenze. Deine Kundinnen und Kunden sind verunsichert und vergleichen genauer, bevor sie sich entscheiden.</p>
+    <p>Genau deshalb entscheidet sich im Erstkontakt, ob aus einer unsicheren Anfrage ein Termin wird oder ob sie im Tagesgeschäft untergeht. Wer schnell, klar und kompetent reagiert, gewinnt den Auftrag, oft noch bevor der Kunde überhaupt vergleicht. Die ersten 30 Minuten sind kein Admin-Thema, sondern dein direktester Hebel auf Umsatz und Marge.</p>
   </div>
 </section>
 
@@ -603,10 +730,47 @@
       <svg class="mark" width="38" height="38" viewBox="0 0 96 96"><use href="#catchly-mark"/></svg>
       <span class="name" style="color:#fff">Catchly</span>
     </a>
-    <span class="muted">Mensch bleibt. Reibung raus. Für Schweizer Bau-KMU.</span>
+    <span class="muted">Mensch bleibt. Reibung raus. Für Schweizer Energie- &amp; Haustechnik-Betriebe.</span>
     <a href="https://calendly.com/ai-wieeve/fahrplan-gesprach" target="_blank" rel="noopener">Fahrplangespräch buchen →</a>
   </div>
 </footer>
+
+<!-- ===== AGENT POPUP (eigenes UI) ===== -->
+<div class="agentmodal" id="agentModal" aria-hidden="true">
+  <div class="am-backdrop" data-agent-close></div>
+  <div class="am-dialog" role="dialog" aria-modal="true" aria-label="Catchly Agent live testen">
+    <span class="confetti circle" style="top:-30px;right:-24px;width:130px;height:130px;background:rgba(255,212,0,.12)"></span>
+    <span class="confetti sq" style="bottom:-22px;left:-10px;width:80px;height:80px;background:rgba(254,11,125,.18);transform:rotate(20deg)"></span>
+    <button class="am-x" type="button" data-agent-close aria-label="Schliessen">×</button>
+    <div class="am-k">Live-Demo</div>
+    <div class="am-title">Sprich mit dem Catchly-Agenten</div>
+    <div class="am-orb-wrap">
+      <span class="am-ring am-ring2"></span>
+      <span class="am-ring"></span>
+      <div class="am-orb" id="amOrb"></div>
+      <svg class="am-mic" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="9" y="3" width="6" height="11" rx="3" fill="#fff"/>
+        <path d="M6 11a6 6 0 0 0 12 0" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        <path d="M12 17v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="am-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <div class="am-status" id="amStatus">Bereit</div>
+    <div class="am-sub" id="amSub">Klick auf „Jetzt sprechen“ und leg los.</div>
+    <div class="am-actions">
+      <button class="am-btn am-btn-go" type="button" id="amStart">🎤 Jetzt sprechen</button>
+      <button class="am-btn am-btn-stop" type="button" id="amStop" hidden>Beenden</button>
+    </div>
+    <div class="am-field" id="amEmailRow" hidden>
+      <label class="am-label" for="amEmail">Wenn der Agent nach deiner E-Mail fragt: hier eintippen und senden</label>
+      <div class="am-emailrow">
+        <input class="am-input" id="amEmail" type="email" inputmode="email" autocomplete="email" placeholder="name@firma.ch">
+        <button class="am-btn am-btn-send" type="button" id="amEmailSend">Senden</button>
+      </div>
+    </div>
+    <p class="am-hint" id="amHint">Dein Browser fragt beim Start nach Mikrofon-Zugriff. Du sprichst mit einem KI-Agenten, bitte keine sensiblen Daten teilen.</p>
+  </div>
+</div>
 
 <script>
   const io=new IntersectionObserver((es)=>{
@@ -621,6 +785,170 @@
     },{threshold:.4});
     ro.observe(ring.closest('.hero-card'));
   }
+</script>
+
+<!-- Catchly-Agent: eigenes UI über das ElevenLabs Client-SDK (öffentlicher Agent, backend-frei, kein API-Key) -->
+<script type="module">
+  const AGENT_ID = "agent_5701kvaq8a6hf9arre9ztccmgyr4";
+
+  const modal    = document.getElementById('agentModal');
+  const statusEl = document.getElementById('amStatus');
+  const subEl    = document.getElementById('amSub');
+  const orb      = document.getElementById('amOrb');
+  const startBtn = document.getElementById('amStart');
+  const stopBtn  = document.getElementById('amStop');
+  const hintEl   = document.getElementById('amHint');
+  const emailEl  = document.getElementById('amEmail');
+  const emailRow = document.getElementById('amEmailRow');
+  const emailSend= document.getElementById('amEmailSend');
+  const HINT_DEFAULT = hintEl.textContent;
+
+  let Conversation = null, convo = null, raf = 0, lastFocus = null;
+
+  const setStatus = (t, sub) => { statusEl.textContent = t; if (sub !== undefined) subEl.textContent = sub; };
+  const looksLikeEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((v || '').trim());
+
+  emailEl.addEventListener('input', () => emailEl.classList.remove('am-invalid'));
+  emailEl.addEventListener('keydown', (e) => { if (e.key === 'Enter'){ e.preventDefault(); sendEmail(); } });
+
+  function resetUI(){
+    setStatus('Bereit', 'Klick auf „Jetzt sprechen“ und leg los.');
+    hintEl.textContent = HINT_DEFAULT; hintEl.classList.remove('am-err');
+    startBtn.hidden = false; startBtn.disabled = false; stopBtn.hidden = true;
+    emailRow.hidden = true; emailEl.classList.remove('am-invalid');
+    modal.classList.remove('speaking');
+    orb.style.transform = ''; orb.style.boxShadow = '';
+  }
+  function openModal(){
+    lastFocus = document.activeElement;
+    resetUI();
+    modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    startBtn.focus();
+  }
+  function closeModal(){
+    if (convo) stop();
+    modal.classList.remove('open'); modal.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  document.querySelectorAll('[data-agent-open]').forEach(b =>
+    b.addEventListener('click', e => { e.preventDefault(); openModal(); }));
+  document.querySelectorAll('[data-agent-close]').forEach(b =>
+    b.addEventListener('click', closeModal));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+  });
+
+  async function ensureSDK(){
+    if (Conversation) return Conversation;
+    const sources = [
+      "https://cdn.jsdelivr.net/npm/@elevenlabs/client/+esm",
+      "https://esm.sh/@elevenlabs/client"
+    ];
+    let lastErr;
+    for (const url of sources){
+      try {
+        const mod = await import(url);
+        if (mod && mod.Conversation){ Conversation = mod.Conversation; return Conversation; }
+      } catch (e){ lastErr = e; }
+    }
+    throw lastErr || new Error("SDK konnte nicht geladen werden");
+  }
+
+  function showError(text){
+    cancelAnimationFrame(raf);
+    startBtn.hidden = false; startBtn.disabled = false; stopBtn.hidden = true;
+    emailRow.hidden = true;
+    modal.classList.remove('speaking');
+    orb.style.transform = ''; orb.style.boxShadow = '';
+    setStatus('Nicht verbunden', '');
+    hintEl.textContent = text; hintEl.classList.add('am-err');
+  }
+
+  async function start(){
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+      showError('Mikrofon ist hier nicht verfügbar. Bitte die Seite über eine https-Adresse öffnen (nach dem Deploy auf GitHub Pages), nicht als lokale Datei.');
+      return;
+    }
+    startBtn.disabled = true;
+    hintEl.textContent = HINT_DEFAULT; hintEl.classList.remove('am-err');
+    setStatus('Verbindung …', 'Einen Moment, der Agent meldet sich gleich.');
+    try{
+      const Conv = await ensureSDK();
+      convo = await Conv.startSession({
+        agentId: AGENT_ID,
+        dynamicVariables: { source: 'erstkontakt' },
+        onConnect: () => {
+          startBtn.hidden = true; startBtn.disabled = false; stopBtn.hidden = false;
+          emailRow.hidden = false;
+          setStatus('Zuhören …', 'Sag dem Agenten einfach dein Anliegen.');
+          loop();
+        },
+        onDisconnect: () => endLocal(),
+        onModeChange: ({ mode }) => {
+          if (mode === 'speaking'){ modal.classList.add('speaking'); setStatus('Agent spricht …', ''); }
+          else { modal.classList.remove('speaking'); setStatus('Zuhören …', 'Du bist dran, sprich einfach.'); }
+        },
+        onError: (msg) => showError(typeof msg === 'string' ? msg : 'Es gab ein Problem mit der Verbindung. Bitte erneut versuchen.')
+      });
+    } catch (err){
+      const denied = err && (err.name === 'NotAllowedError' ||
+        /permission|denied|microphone|not allowed/i.test(String(err && err.message)));
+      showError(denied
+        ? 'Mikrofon-Zugriff wurde blockiert. Bitte im Browser erlauben und erneut versuchen.'
+        : 'Der Agent konnte nicht geladen werden. Bitte Internetverbindung prüfen und erneut versuchen.');
+    }
+  }
+
+  async function stop(){
+    try { if (convo) await convo.endSession(); } catch (_) {}
+    endLocal();
+  }
+  function endLocal(){
+    cancelAnimationFrame(raf);
+    convo = null;
+    resetUI();
+  }
+
+  function loop(){
+    let amp = 0;
+    try{
+      const data = (convo.getOutputByteFrequencyData && convo.getOutputByteFrequencyData())
+                || (convo.getInputByteFrequencyData && convo.getInputByteFrequencyData());
+      if (data && data.length){
+        let s = 0; for (let i = 0; i < data.length; i++) s += data[i];
+        amp = (s / data.length) / 255;
+      }
+    } catch (_) {}
+    const scale = 1 + Math.min(amp * 0.9, 0.45);
+    orb.style.transform = 'scale(' + scale.toFixed(3) + ')';
+    orb.style.boxShadow = '0 0 ' + Math.round(20 + amp * 70) + 'px ' + Math.round(amp * 14) +
+      'px rgba(254,11,125,' + (0.35 + amp * 0.5).toFixed(2) + '), 0 14px 40px rgba(254,11,125,.4)';
+    raf = requestAnimationFrame(loop);
+  }
+
+  function sendEmail(){
+    if (!convo){ return; }
+    const val = emailEl.value.trim();
+    if (!looksLikeEmail(val)){
+      emailEl.classList.add('am-invalid'); emailEl.focus();
+      setStatus(statusEl.textContent, 'Bitte eine gültige E-Mail eintippen, z. B. name@firma.ch.');
+      return;
+    }
+    try {
+      convo.sendUserMessage('Meine E-Mail-Adresse lautet: ' + val);
+      emailEl.classList.remove('am-invalid');
+      setStatus(statusEl.textContent, 'E-Mail an den Agenten gesendet ✓');
+    } catch (_){
+      setStatus(statusEl.textContent, 'E-Mail konnte nicht gesendet werden. Bitte erneut versuchen.');
+    }
+  }
+
+  startBtn.addEventListener('click', start);
+  stopBtn.addEventListener('click', stop);
+  emailSend.addEventListener('click', sendEmail);
 </script>
 </body>
 </html>
